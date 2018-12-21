@@ -19,4 +19,14 @@ def preprocess_data(data_raw):
 	
 	return data_processing
 
+def create_processed_datafile(file_name, suffix="_clear"):
+	data_raw = pd.read_csv(file_name, sep=',', index_col="ID")
+	data_ready = preprocess_data(data_raw.drop("target", axis=1))
+
+	data_ready.insert(loc=0, column="target", value=data_raw["target"])
+
+	new_file_name = file_name.rsplit(sep='.', maxsplit=1)[0] + suffix + ".csv"
+	data_ready.to_csv(new_file_name)
+	pass
+
 main()
