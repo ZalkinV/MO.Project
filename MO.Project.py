@@ -6,11 +6,11 @@ label_name = "target"
 def main():
 	data_raw_train = pd.read_csv("../train.csv", sep=',', index_col="ID", nrows=200)
 	
-	labels_ready = data_raw_train[label_name]
-	features_ready = preprocess_data(data_raw_train.drop(label_name, axis=1))
+	labels_train = data_raw_train[label_name]
+	features_train = preprocess_data(data_raw_train.drop(label_name, axis=1))
 	del data_raw_train
 
-	print(features_ready)
+	print(features_train)
 	pass
 
 def preprocess_data(data_raw):
