@@ -1,6 +1,8 @@
 import pandas as pd
 from sklearn import preprocessing
 
+import xgboost as xgb
+
 label_name = "target"
 
 def main():
@@ -24,6 +26,11 @@ def preprocess_data(data_raw):
 	data_processing.columns = ["f" + str(i) for i in range(1, data_processing.shape[1] + 1)]
 
 	return data_processing
+
+def build_hypothesis(features_train, labels_train):
+	hypothesis = xgb.XGBRegressor(objective="reg:linear")
+	hypothesis.fit(features_train, labels_train)
+	return hypothesis
 
 def create_processed_datafile(file_name, suffix="_clear"):
 	data_raw = pd.read_csv(file_name, sep=',', index_col="ID")
