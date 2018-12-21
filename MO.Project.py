@@ -4,7 +4,7 @@ from sklearn import preprocessing
 label_name = "target"
 
 def main():
-	data_raw_train = pd.read_csv("../train.csv", sep=',', index_col="ID", nrows=200)
+	data_raw_train = pd.read_csv("../train.csv", index_col="ID", nrows=200)
 	
 	labels_train = data_raw_train[label_name]
 	features_train = preprocess_data(data_raw_train.drop(label_name, axis=1))
