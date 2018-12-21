@@ -1,9 +1,10 @@
 import pandas as pd
 
+label_name = "target"
+
 def main():
 	data_raw_train = pd.read_csv("../train.csv", sep=',', index_col="ID", nrows=200)
 	
-	label_name = "target"
 	labels_ready = data_raw_train[label_name]
 	features_ready = preprocess_data(data_raw_train.drop(label_name, axis=1))
 	del data_raw_train
@@ -21,9 +22,9 @@ def preprocess_data(data_raw):
 
 def create_processed_datafile(file_name, suffix="_clear"):
 	data_raw = pd.read_csv(file_name, sep=',', index_col="ID")
-	data_ready = preprocess_data(data_raw.drop("target", axis=1))
+	data_ready = preprocess_data(data_raw.drop(label_name, axis=1))
 
-	data_ready.insert(loc=0, column="target", value=data_raw["target"])
+	data_ready.insert(loc=0, column=label_name, value=data_raw[label_name])
 
 	new_file_name = file_name.rsplit(sep='.', maxsplit=1)[0] + suffix + ".csv"
 	data_ready.to_csv(new_file_name)
