@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn import preprocessing
 
 label_name = "target"
 
@@ -18,8 +19,10 @@ def preprocess_data(data_raw):
 	quantile_values = data_processing.quantile(q=0.70)
 	data_processing = data_processing.loc[:, quantile_values > 0]
 	
-	data_processing.columns = ["f" + str(i) for i in range(1, data_processing.shape[1] + 1)]
+	data_processing[:] = preprocessing.minmax_scale(data_processing)
 	
+	data_processing.columns = ["f" + str(i) for i in range(1, data_processing.shape[1] + 1)]
+
 	return data_processing
 
 def create_processed_datafile(file_name, suffix="_clear"):
