@@ -23,12 +23,12 @@ def main():
 def preprocess_data(data_raw):
 	data_processing = data_raw.copy(deep=True)
 
+	data_processing.columns = ["f" + str(i) for i in range(1, data_processing.shape[1] + 1)]
+
 	quantile_values = data_processing.quantile(q=0.85)
 	data_processing = data_processing.loc[:, quantile_values > 0]
 	
 	data_processing[:] = preprocessing.minmax_scale(data_processing)
-	
-	data_processing.columns = ["f" + str(i) for i in range(1, data_processing.shape[1] + 1)]
 
 	return data_processing
 
