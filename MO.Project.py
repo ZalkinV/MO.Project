@@ -20,8 +20,8 @@ def main():
 	features_train = features_train[similar_features_names]
 	features_test = features_test[similar_features_names]
 
-	print(features_train)
-	print(features_test)
+	hypothesis = build_hypothesis(features_train, labels_train)
+	labels_test = hypothesis.predict(features_test)
 	pass
 
 def preprocess_data(data_raw, for_file=False):
