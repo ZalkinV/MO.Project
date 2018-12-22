@@ -3,9 +3,9 @@ from sklearn import preprocessing
 
 import xgboost as xgb
 
-label_name = "target"
-
 def main():
+	label_name = "target"
+
 	data_raw_train = pd.read_csv("../train.csv", index_col="ID", nrows=800)
 	data_raw_test = pd.read_csv("../test.csv", index_col="ID", nrows=200)
 	
@@ -37,11 +37,14 @@ def build_hypothesis(features_train, labels_train):
 	hypothesis.fit(features_train, labels_train)
 	return hypothesis
 
-def create_processed_datafile(file_name, suffix="_clear"):
+def create_processed_datafile(file_name, label=None, suffix="_clear"):
 	data_raw = pd.read_csv(file_name, sep=',', index_col="ID")
-	data_ready = preprocess_data(data_raw.drop(label_name, axis=1))
 
-	data_ready.insert(loc=0, column=label_name, value=data_raw[label_name])
+	if label is not None:
+		data_ready = preprocess_data(data_raw.drop(label, axis=1))
+		data_ready.insert(loc=0, column=label, value=data_raw[label])
+	else:
+		data_ready = preprocess_data(data_raw)
 
 	new_file_name = file_name.rsplit(sep='.', maxsplit=1)[0] + suffix + ".csv"
 	data_ready.to_csv(new_file_name)
