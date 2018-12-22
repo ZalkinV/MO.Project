@@ -25,6 +25,7 @@ def main():
 	labels_test = hypothesis.predict(features_test)
 
 	pd.DataFrame(labels_test, index=features_test.index, columns=[label_name]).to_csv("../submission.csv")
+	print_submission_info(hypothesis, quantile_value)
 	pass
 
 def preprocess_data(data_raw, quantile, for_file=False):
@@ -57,6 +58,11 @@ def create_processed_datafile(file_name, label=None, suffix="_clear"):
 
 	new_file_name = file_name.rsplit(sep='.', maxsplit=1)[0] + suffix + ".csv"
 	data_ready.to_csv(new_file_name)
+	pass
+
+def print_submission_info(hypothesis, quantile):
+	print("Hypothesis: {h}".format(h=hypothesis))
+	print("Quantile: {q}".format(q=quantile))
 	pass
 
 def get_similar_columns(df_first, df_second):
