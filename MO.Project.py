@@ -16,6 +16,10 @@ def main():
 	features_test = preprocess_data(data_raw_test)
 	del data_raw_test
 
+	similar_features_names = get_similar_columns(features_train, features_test)
+	features_train = features_train[similar_features_names]
+	features_test = features_test[similar_features_names]
+
 	print(features_train)
 	print(features_test)
 	pass
@@ -51,5 +55,11 @@ def create_processed_datafile(file_name, label=None, suffix="_clear"):
 	new_file_name = file_name.rsplit(sep='.', maxsplit=1)[0] + suffix + ".csv"
 	data_ready.to_csv(new_file_name)
 	pass
+
+def get_similar_columns(df_first, df_second):
+	unsorted_names = list(set(df_first.columns).intersection(df_second.columns))
+	sorted_names = unsorted_names.copy()
+	sorted_names.sort(key=lambda f: int(f[1:]))
+	return sorted_names
 
 main()
