@@ -6,8 +6,8 @@ import xgboost as xgb
 def main():
 	label_name = "target"
 
-	data_raw_train = pd.read_csv("../train.csv", index_col="ID", nrows=800)
-	data_raw_test = pd.read_csv("../test.csv", index_col="ID", nrows=200)
+	data_raw_train = pd.read_csv("../train_clear.csv", index_col="ID")
+	data_raw_test = pd.read_csv("../test_clear.csv", index_col="ID")
 	
 	labels_train = data_raw_train[label_name]
 	features_train = preprocess_data(data_raw_train.drop(label_name, axis=1))
