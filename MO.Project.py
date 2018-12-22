@@ -22,6 +22,8 @@ def main():
 
 	hypothesis = build_hypothesis(features_train, labels_train)
 	labels_test = hypothesis.predict(features_test)
+
+	pd.DataFrame(labels_test, index=features_test.index, columns=[label_name]).to_csv("../submission.csv")
 	pass
 
 def preprocess_data(data_raw, for_file=False):
