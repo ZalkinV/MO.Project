@@ -5,15 +5,16 @@ import xgboost as xgb
 
 def main():
 	label_name = "target"
+	quantile_value = 0.85
 
 	data_raw_train = pd.read_csv("../train_clear.csv", index_col="ID")
 	data_raw_test = pd.read_csv("../test_clear.csv", index_col="ID")
 	
 	labels_train = data_raw_train[label_name]
-	features_train = preprocess_data(data_raw_train.drop(label_name, axis=1))
+	features_train = preprocess_data(data_raw_train.drop(label_name, axis=1), quantile_value)
 	del data_raw_train
 
-	features_test = preprocess_data(data_raw_test)
+	features_test = preprocess_data(data_raw_test, quantile_value)
 	del data_raw_test
 
 	similar_features_names = get_similar_columns(features_train, features_test)
@@ -26,14 +27,14 @@ def main():
 	pd.DataFrame(labels_test, index=features_test.index, columns=[label_name]).to_csv("../submission.csv")
 	pass
 
-def preprocess_data(data_raw, for_file=False):
+def preprocess_data(data_raw, quantile, for_file=False):
 	data_processing = data_raw.copy(deep=True)
 
 	if for_file:
 		data_processing.columns = ["f" + str(i) for i in range(1, data_processing.shape[1] + 1)]
 
-	quantile_values = data_processing.quantile(q=0.85)
-	data_processing = data_processing.loc[:, quantile_values > 0]
+	quantiled_values = data_processing.quantile(q=quantile)
+	data_processing = data_processing.loc[:, quantiled_values > 0]
 
 	if not for_file:
 		data_processing[:] = preprocessing.minmax_scale(data_processing)
