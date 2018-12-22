@@ -20,15 +20,17 @@ def main():
 	print(features_test)
 	pass
 
-def preprocess_data(data_raw):
+def preprocess_data(data_raw, for_file=False):
 	data_processing = data_raw.copy(deep=True)
 
-	data_processing.columns = ["f" + str(i) for i in range(1, data_processing.shape[1] + 1)]
+	if for_file:
+		data_processing.columns = ["f" + str(i) for i in range(1, data_processing.shape[1] + 1)]
 
 	quantile_values = data_processing.quantile(q=0.85)
 	data_processing = data_processing.loc[:, quantile_values > 0]
-	
-	data_processing[:] = preprocessing.minmax_scale(data_processing)
+
+	if not for_file:
+		data_processing[:] = preprocessing.minmax_scale(data_processing)
 
 	return data_processing
 
@@ -41,10 +43,10 @@ def create_processed_datafile(file_name, label=None, suffix="_clear"):
 	data_raw = pd.read_csv(file_name, sep=',', index_col="ID")
 
 	if label is not None:
-		data_ready = preprocess_data(data_raw.drop(label, axis=1))
+		data_ready = preprocess_data(data_raw.drop(label, axis=1), for_file=True)
 		data_ready.insert(loc=0, column=label, value=data_raw[label])
 	else:
-		data_ready = preprocess_data(data_raw)
+		data_ready = preprocess_data(data_raw, for_file=True)
 
 	new_file_name = file_name.rsplit(sep='.', maxsplit=1)[0] + suffix + ".csv"
 	data_ready.to_csv(new_file_name)
