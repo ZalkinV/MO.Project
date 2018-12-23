@@ -8,8 +8,8 @@ def main():
 
 	quantile_value = 0.85
 
-	path_train = "../train_clear_0.85.csv"
-	path_test = "../test_clear_0.85.csv"
+	path_train = "../train_clear_" + str(quantile_value) + ".csv"
+	path_test = "../test_clear_" + str(quantile_value) + ".csv"
 	path_submission = "../submission.csv"
 
 	data_raw_train = pd.read_csv(path_train, index_col="ID")
