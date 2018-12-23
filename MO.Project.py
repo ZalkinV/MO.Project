@@ -5,10 +5,15 @@ import xgboost as xgb
 
 def main():
 	label_name = "target"
+
 	quantile_value = 0.85
 
-	data_raw_train = pd.read_csv("../train_clear.csv", index_col="ID")
-	data_raw_test = pd.read_csv("../test_clear.csv", index_col="ID")
+	path_train = "../train_clear_0.85.csv"
+	path_test = "../test_clear_0.85.csv"
+	path_submission = "../submission.csv"
+
+	data_raw_train = pd.read_csv(path_train, index_col="ID")
+	data_raw_test = pd.read_csv(path_test, index_col="ID")
 	
 	labels_train = data_raw_train[label_name]
 	features_train = preprocess_data(data_raw_train.drop(label_name, axis=1), quantile_value)
@@ -24,7 +29,7 @@ def main():
 	hypothesis = build_hypothesis(features_train, labels_train)
 	labels_test = hypothesis.predict(features_test)
 
-	pd.DataFrame(labels_test, index=features_test.index, columns=[label_name]).to_csv("../submission.csv")
+	pd.DataFrame(labels_test, index=features_test.index, columns=[label_name]).to_csv(path_submission)
 	write_submission_info(hypothesis, quantile_value)
 	pass
 
