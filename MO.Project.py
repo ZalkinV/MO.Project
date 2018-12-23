@@ -47,7 +47,7 @@ def build_hypothesis(features_train, labels_train):
 	hypothesis.fit(features_train, labels_train)
 	return hypothesis
 
-def create_processed_datafile(file_name, quantile, label=None, suffix="_clear"):
+def create_processed_datafile(file_name, quantile, label=None, suffix="clear"):
 	data_raw = pd.read_csv(file_name, sep=',', index_col="ID")
 
 	if label is not None:
@@ -56,8 +56,8 @@ def create_processed_datafile(file_name, quantile, label=None, suffix="_clear"):
 	else:
 		data_ready = preprocess_data(data_raw, quantile=quantile, for_file=True)
 
-	new_file_name = file_name.rsplit(sep='.', maxsplit=1)[0] + suffix + ".csv"
-	data_ready.to_csv(new_file_name)
+	new_file_name = "_".join([file_name.rsplit(sep='.', maxsplit=1)[0], suffix, str(quantile)])
+	data_ready.to_csv(new_file_name + ".csv")
 	pass
 
 def write_submission_info(hypothesis, quantile, extra_info=None):
