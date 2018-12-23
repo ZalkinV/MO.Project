@@ -25,7 +25,7 @@ def main():
 	labels_test = hypothesis.predict(features_test)
 
 	pd.DataFrame(labels_test, index=features_test.index, columns=[label_name]).to_csv("../submission.csv")
-	print_submission_info(hypothesis, quantile_value)
+	write_submission_info(hypothesis, quantile_value)
 	pass
 
 def preprocess_data(data_raw, quantile, for_file=False):
@@ -60,9 +60,16 @@ def create_processed_datafile(file_name, label=None, suffix="_clear"):
 	data_ready.to_csv(new_file_name)
 	pass
 
-def print_submission_info(hypothesis, quantile):
-	print("Hypothesis: {h}".format(h=hypothesis))
-	print("Quantile: {q}".format(q=quantile))
+def write_submission_info(hypothesis, quantile, extra_info=None):
+	info = [
+		f"**Hypothesis:** {hypothesis}",
+		f"**Quantile:** {quantile}",
+		]
+	if extra_info is not None:
+		info.append(f"{extra_info}")
+
+	with open("submission_info.txt", 'w') as fo:
+		fo.writelines("\n\n".join(info))
 	pass
 
 def get_similar_columns(df_first, df_second):
