@@ -47,14 +47,14 @@ def build_hypothesis(features_train, labels_train):
 	hypothesis.fit(features_train, labels_train)
 	return hypothesis
 
-def create_processed_datafile(file_name, label=None, suffix="_clear"):
+def create_processed_datafile(file_name, quantile, label=None, suffix="_clear"):
 	data_raw = pd.read_csv(file_name, sep=',', index_col="ID")
 
 	if label is not None:
-		data_ready = preprocess_data(data_raw.drop(label, axis=1), for_file=True)
+		data_ready = preprocess_data(data_raw.drop(label, axis=1), quantile=quantile, for_file=True)
 		data_ready.insert(loc=0, column=label, value=data_raw[label])
 	else:
-		data_ready = preprocess_data(data_raw, for_file=True)
+		data_ready = preprocess_data(data_raw, quantile=quantile, for_file=True)
 
 	new_file_name = file_name.rsplit(sep='.', maxsplit=1)[0] + suffix + ".csv"
 	data_ready.to_csv(new_file_name)
