@@ -34,13 +34,11 @@ def main():
 	pass
 
 def preprocess_data(data_raw, quantile, for_file=False):
-	data_processing = data_raw.copy(deep=True)
-
 	if for_file:
-		data_processing.columns = ["f" + str(i) for i in range(1, data_processing.shape[1] + 1)]
+		data_raw.columns = ["f" + str(i) for i in range(1, data_raw.shape[1] + 1)]
 
-	quantiled_values = data_processing.quantile(q=quantile)
-	data_processing = data_processing.loc[:, quantiled_values > 0]
+	quantiled_values = data_raw.quantile(q=quantile)
+	data_processing = data_raw.loc[:, quantiled_values > 0]
 
 	if not for_file:
 		data_processing[:] = preprocessing.minmax_scale(data_processing)
