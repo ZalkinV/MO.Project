@@ -32,8 +32,14 @@ def show_graphs(features, labels, hypothesis=None, columns_names=None, n_max=200
 	picked_features = select_features()
 	X, y = select_rows(picked_features)
 
-	fig_dep, axes = plt.subplots(2, 2)
-	fig_dep.suptitle("Dependence label from features")
+	fig_dep = plot_dependencies(X, y)
+
+	plt.show()
+	pass
+
+def plot_dependencies(X, y):
+	fig, axes = plt.subplots(2, 2)
+	fig.suptitle("Dependence label from features")
 	plt.subplots_adjust(wspace=0.3, hspace=0.4)
 
 	for i in range(4):
@@ -44,5 +50,4 @@ def show_graphs(features, labels, hypothesis=None, columns_names=None, n_max=200
 		plt.ylabel("target")
 		plt.plot(current_feature, y, 'bx', markersize=4)
 
-	plt.show()
-	pass
+	return fig
