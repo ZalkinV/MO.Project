@@ -61,6 +61,9 @@ def show_graphs(features, labels, columns_names=None, n_max=200, rand_seed=0):
 		X_train, y_train = data_splitted[0], data_splitted[2]
 		return X_train, y_train
 
+	picked_features = select_features()
+	X, y = select_rows(picked_features)
+
 	fig_dep, axes = plt.subplots(2, 2)
 	fig_dep.suptitle("Dependence label from features")
 
