@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn import preprocessing
+from sklearn import model_selection
 
 import xgboost as xgb
 
@@ -37,6 +38,12 @@ def main():
 	pass
 
 def show_graphs(features, labels, columns=None, n_max=200, rand_seed=0):
+	def select_rows():
+		data_size = 1 - n_max / features.shape[0]
+		data_splitted = model_selection.train_test_split(features, labels, test_size=data_size, random_state=rand_seed)
+		X_train, y_train = data_splitted[0], data_splitted[2]
+		return X_train, y_train
+
 	fig_dep, axes = plt.subplots(2, 2)
 	fig_dep.suptitle("Dependence label from features")
 
