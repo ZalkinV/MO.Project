@@ -37,7 +37,7 @@ def main():
 	#write_submission_info(hypothesis, quantile_value)
 	pass
 
-def show_graphs(features, labels, columns=None, n_max=200, rand_seed=0):
+def show_graphs(features, labels, columns_names=None, n_max=200, rand_seed=0):
 	def select_rows(columns):
 		data_size = 1 - n_max / features.shape[0]
 		data_splitted = model_selection.train_test_split(columns, labels, test_size=data_size, random_state=rand_seed)
