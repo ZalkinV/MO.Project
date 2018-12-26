@@ -24,7 +24,7 @@ def show_graphs(features, labels, hypothesis=None, columns_names=None, n_max=200
 		return X_train
 
 	def select_rows(columns):
-		data_size = 1 - n_max / features.shape[0]
+		data_size = 1 - n_max / features.shape[0] if n_max < features.shape[0] else 0 
 		data_splitted = model_selection.train_test_split(columns, labels, test_size=data_size, random_state=rand_seed)
 		X_train, y_train = data_splitted[0], data_splitted[2]
 		return X_train, y_train
