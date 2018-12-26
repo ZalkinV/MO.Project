@@ -66,6 +66,14 @@ def show_graphs(features, labels, columns_names=None, n_max=200, rand_seed=0):
 
 	fig_dep, axes = plt.subplots(2, 2)
 	fig_dep.suptitle("Dependence label from features")
+	
+	for i in range(4):
+		current_feature = X.iloc[:, i]
+		plt.subplot(2, 2, i + 1)
+		
+		plt.xlabel(current_feature.name)
+		plt.ylabel("target")
+		plt.plot(current_feature, y, 'bx', markersize=4)
 
 	plt.show()
 	pass
