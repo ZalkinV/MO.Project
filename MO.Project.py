@@ -3,6 +3,8 @@ from sklearn import preprocessing
 
 import xgboost as xgb
 
+import matplotlib.pyplot as plt
+
 def main():
 	label_name = "target"
 
@@ -29,8 +31,16 @@ def main():
 	hypothesis = build_hypothesis(features_train, labels_train)
 	labels_test = hypothesis.predict(features_test)
 
-	pd.DataFrame(labels_test, index=features_test.index, columns=[label_name]).to_csv(path_submission)
-	write_submission_info(hypothesis, quantile_value)
+	show_graphs(features_train, labels_train)
+	#pd.DataFrame(labels_test, index=features_test.index, columns=[label_name]).to_csv(path_submission)
+	#write_submission_info(hypothesis, quantile_value)
+	pass
+
+def show_graphs(features, labels, columns=None, n_max=200, rand_seed=0):
+	fig_dep, axes = plt.subplots(2, 2)
+	fig_dep.suptitle("Dependence label from features")
+
+	plt.show()
 	pass
 
 def preprocess_data(data_raw, quantile, for_file=False):
