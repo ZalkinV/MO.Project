@@ -11,7 +11,7 @@ def show_graphs(features, labels, hypothesis=None, columns_names=None, n_max=200
 		X_train = None
 
 		if columns_names is None:
-			importances = xgb.XGBRegressor().fit(features, labels).feature_importances_
+			importances = build_xgb_regr(features, labels).feature_importances_
 			importances = importances.reshape(1, importances.size)
 			
 			feature_importance = pd.DataFrame(data=importances, columns=features.columns)
@@ -51,3 +51,6 @@ def plot_dependencies(X, y):
 		plt.plot(current_feature, y, 'bx', markersize=4)
 
 	return fig
+
+def build_xgb_regr(features, labels):
+	return xgb.XGBRegressor().fit(features, labels)
