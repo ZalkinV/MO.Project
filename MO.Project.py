@@ -47,7 +47,12 @@ def preprocess_data(data_raw, quantile, for_file=False):
 	return data_processing
 
 def build_hypothesis(features_train, labels_train):
-	hypothesis = xgb.XGBRegressor(objective="reg:linear")
+	params = {
+		"learning_rate" : 0.01,
+		"max_depth" : 10,
+		"objective" : "reg:linear"
+	}
+	hypothesis = xgb.XGBRegressor(**params)
 	hypothesis.fit(features_train, labels_train)
 	return hypothesis
 
