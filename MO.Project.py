@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn import preprocessing
 
 import xgboost as xgb
@@ -29,7 +30,7 @@ def main():
 	hypothesis = build_hypothesis(features_train, labels_train)
 	labels_test = hypothesis.predict(features_test)
 
-	pd.DataFrame(labels_test, index=features_test.index, columns=[label_name]).to_csv(path_submission)
+	pd.DataFrame(np.abs(labels_test), index=features_test.index, columns=[label_name]).to_csv(path_submission)
 	write_submission_info(hypothesis, quantile_value)
 	pass
 
