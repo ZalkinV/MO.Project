@@ -33,6 +33,7 @@ def show_graphs(features, labels, hypothesis=None, columns_names=None, n_max=200
 	X, y = select_rows(picked_features)
 
 	fig_dep = plot_dependencies(X, y)
+	plot_importances(features, labels)
 
 	plt.show()
 	pass
@@ -51,6 +52,11 @@ def plot_dependencies(X, y):
 		plt.plot(current_feature, y, 'bx', markersize=4)
 
 	return fig
+
+def plot_importances(X, y):
+	hypothesis = build_xgb_regr(X, y)
+	xgb.plot_importance(hypothesis)
+	pass
 
 def build_xgb_regr(features, labels):
 	return xgb.XGBRegressor().fit(features, labels)
