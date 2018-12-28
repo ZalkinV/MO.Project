@@ -6,12 +6,15 @@ import matplotlib.pyplot as plt
 
 import xgboost as xgb
 
-def show_graphs(features, labels, hypothesis=None, columns_names=None, n_max=200, rand_seed=0):
+def show_graphs(features, labels, hypothesis, columns_names=None, n_max=200, rand_seed=0):
 	def select_features():
 		X_train = None
 
 		if columns_names is None:
-			importances = build_xgb_regr(features, labels).feature_importances_
+			if hasattr(hypothesis, "feature_importances_"):
+				importances = hypothesis.feature_importances_
+			else:
+				importances = build_xgb_regr(features, labels).feature_importances_
 			importances = importances.reshape(1, importances.size)
 			
 			feature_importance = pd.DataFrame(data=importances, columns=features.columns)
