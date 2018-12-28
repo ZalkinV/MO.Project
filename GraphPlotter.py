@@ -36,7 +36,7 @@ def show_graphs(features, labels, hypothesis, columns_names=None, n_max=200, ran
 	X, y = select_rows(picked_features)
 
 	fig_dep = plot_dependencies(X, y)
-	plot_importances(features, labels)
+	plot_hypothesis(hypothesis, X, y, fig_dep)
 
 	plt.show()
 	pass
@@ -56,9 +56,19 @@ def plot_dependencies(X, y):
 
 	return fig
 
-def plot_importances(X, y):
-	hypothesis = build_xgb_regr(X, y)
-	xgb.plot_importance(hypothesis)
+def plot_hypothesis(hypothesis, features, labels, figure):
+	if hasattr(hypothesis, "feature_importances_"):
+		xgb.plot_importance(hypothesis)
+	elif hasattr(hypothesis, "coef_"):
+		weights = hypothesis.coef_
+		plt.figure(figure.number)
+
+		for i in range(features.shape[1]):
+			plt.subplot(2, 2, i + 1)
+			x = features.iloc[:, i].values
+			y = weights[i] * x + hypothesis.intercept_
+			plt.plot(x, y, color='r')
+		pass
 	pass
 
 def build_xgb_regr(features, labels):
