@@ -31,7 +31,7 @@ def main():
 	hypothesis = build_hypothesis(features_train, labels_train)
 	labels_test = hypothesis.predict(features_test)
 
-	GP.show_graphs(features_train, labels_train, hypothesis, n_max=1000, rand_seed=0)
+	GP.show_graphs(features_train, labels_train, features_test, hypothesis, n_max=1000, rand_seed=0)
 	#pd.DataFrame(labels_test, index=features_test.index, columns=[label_name]).to_csv(path_submission)
 	#write_submission_info(hypothesis, quantile_value)
 	pass
