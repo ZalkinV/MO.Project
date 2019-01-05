@@ -66,9 +66,14 @@ def plot_distribution(features_train, features_test, features_names, range=None)
 
 	for i, feature_name in enumerate(features_names):
 		plt.subplot(row_count, col_count, i + 1)
+		
+		hist_data = [features_train[feature_name], features_test[feature_name]]
+		hist_colors = ["b", "r"]
+		hist_labels = ["train", "test"]
+		plt.hist(hist_data, range=range, stacked=True, color=hist_colors, label=hist_labels)
 		plt.xlabel(feature_name)
-		plt.ylabel("Count",)
-		plt.hist([features_train[feature_name], features_test[feature_name]], range=range, stacked=True, color=["b","r"])
+		plt.ylabel("Count")
+		plt.legend()
 
 	pass
 
