@@ -4,6 +4,8 @@ from sklearn import preprocessing
 
 import xgboost as xgb
 
+import GraphPlotter as GP
+
 def main():
 	label_name = "target"
 
@@ -30,6 +32,7 @@ def main():
 	hypothesis = build_hypothesis(features_train, labels_train)
 	labels_test = hypothesis.predict(features_test)
 
+	GP.show_graphs(features_train, labels_train, features_test, hypothesis, n_max=1000, rand_seed=0)
 	pd.DataFrame(np.abs(labels_test), index=features_test.index, columns=[label_name]).to_csv(path_submission)
 	write_submission_info(hypothesis, quantile_value)
 	pass
@@ -49,7 +52,7 @@ def preprocess_data(data_raw, quantile, for_file=False):
 def build_hypothesis(features_train, labels_train):
 	params = {
 		"learning_rate" : 0.01,
-		"max_depth" : 10,
+		"max_depth" : 15,
 		"objective" : "reg:linear"
 	}
 	hypothesis = xgb.XGBRegressor(**params)
