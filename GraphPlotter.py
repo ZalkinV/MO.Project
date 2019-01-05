@@ -61,8 +61,9 @@ def plot_distribution(features_train, features_test, features_names, range=None)
 	row_count = int(np.ceil(subplot_count / col_count))
 	
 	fig, axes = plt.subplots(nrows=row_count, ncols=col_count)
-	plt.title("Features distribution")
+	fig.suptitle("Features distribution")
 	plt.subplots_adjust(wspace=0.4, hspace=0.4)
+
 	for i, feature_name in enumerate(features_names):
 		plt.subplot(row_count, col_count, i + 1)
 		plt.xlabel(feature_name)
